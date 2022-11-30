@@ -9,7 +9,4 @@ def solution(n, works):
         work,n=work+1,n-1
         heapq.heappush(works,work)
     
-    ans=0
-    for w in works:
-        ans+=w**2
-    return ans
+    return sum([w**2 for w in works])
