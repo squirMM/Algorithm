@@ -8,8 +8,10 @@ public class Solution {
                 continue;
             list.add(a);
         }
-        return list.stream()
-                .mapToInt(Integer::intValue)
-                .toArray();
+        int[] ans = new int[list.size()];
+        for (int idx=0; idx<list.size(); idx++){
+            ans[idx]=list.get(idx);
+        }
+        return ans;
     }
 }
