@@ -6,9 +6,7 @@ class Solution {
             ans+=(i+"").repeat((int)food[i]/2);
         }
         char[] chars = ans.toCharArray();
-        Arrays.sort(chars);
-         
-        ans = String.valueOf(chars)+"0";
+        ans +="0";
         for(int i =chars.length-1; i>-1; i--){
             ans+=chars[i];
         }
