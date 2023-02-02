@@ -4,44 +4,32 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int ans = 0;
 	static int MAX = 16;
-
-	static int N = 0;
-	static int[] D = new int[MAX];
-	static int[] M = new int[MAX];
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(in.readLine());
 
-		N = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+
+		int[] D = new int[MAX];
+		int[] M = new int[MAX];
 
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(in.readLine());
-			int day = Integer.parseInt(st.nextToken());
-			int money = Integer.parseInt(st.nextToken());
-
-			D[i] = day;
-			M[i] = money;
+			D[i] = Integer.parseInt(st.nextToken());
+			M[i] = Integer.parseInt(st.nextToken());
 		}
 
-		brute(0, 0);
+		int[] dp = new int[MAX];
 
-		System.out.println(ans);
-
-	}
-
-	public static void brute(int date, int total) {
-		if (date > N)
-			return;
-
-		if (date == N) {
-			ans = Math.max(ans, total);
-			return;
+		for (int i = 0; i < N; i++) {
+			if (i + D[i] <= N)
+				dp[i + D[i]] = Math.max(dp[i + D[i]], dp[i] + M[i]);
+			dp[i + 1] = Math.max(dp[i + 1], dp[i]);
 		}
 
-		brute(date + D[date], total + M[date]);
-		brute(date + 1, total);
+		System.out.println(dp[N]);
+
 	}
 }
