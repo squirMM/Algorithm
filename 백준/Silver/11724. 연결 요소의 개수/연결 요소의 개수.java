@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -48,10 +47,7 @@ public class Main {
 		while (!q.isEmpty()) {
 			int v = q.poll();
 
-			Iterator<Integer> iter = map[v].listIterator();
-			while (iter.hasNext()) {
-				int np = iter.next();
-
+			for (int np : map[v]) {
 				if (isVisited[np])
 					continue;
 				isVisited[np] = true;
