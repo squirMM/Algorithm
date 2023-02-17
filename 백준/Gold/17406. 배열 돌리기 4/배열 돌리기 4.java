@@ -38,15 +38,11 @@ public class Main {
 
 		makePermutation(K, 0, new int[K], new boolean[K]);
 		for (int i = 0; i < permute.size(); i++) {
-//			System.out.println(Arrays.toString(permute.get(i)));
 			int[][] rotateArr = deepcopyArr(arr);
 			for (int j : permute.get(i)) {
 				rotateArr = rotateArr(ks[j][0], ks[j][1], ks[j][2], rotateArr);
 			}
-//			System.out.println(ans);
 			ans = Math.min(ans, calculateMin(rotateArr));
-//			print(arr);
-//			print(rotateArr);
 		}
 
 		System.out.println(ans);
@@ -59,15 +55,6 @@ public class Main {
 		return copy;
 	}
 
-	private static void print(int[][] arr) {
-		for (int rows = 1; rows < arr.length; rows++) {
-			for (int col = 1; col < arr[1].length; col++) {
-				System.out.print(arr[rows][col]);
-			}
-			System.out.println();
-		}
-	}
-
 	private static void makePermutation(int K, int cnt, int[] selected, boolean[] isVisit) {
 		if (cnt == K) {
 			permute.add(selected.clone());
@@ -76,10 +63,10 @@ public class Main {
 		for (int i = 0; i < K; i++) {
 			if (isVisit[i])
 				continue;
-			selected[cnt] = i; // 뽑은 수 저장
-			isVisit[i] = true; // 뽑은 자리 마킹
-			makePermutation(K, cnt + 1, selected, isVisit); // 다음수 뽑으러 가기
-			isVisit[i] = false; // 기존에 뽑은 자리 초기화
+			selected[cnt] = i;
+			isVisit[i] = true;
+			makePermutation(K, cnt + 1, selected, isVisit);
+			isVisit[i] = false;
 
 		}
 	}
