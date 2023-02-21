@@ -19,7 +19,8 @@ public class Main {
 				int save = Integer.parseInt(st.nextToken());
 				int loose = Integer.parseInt(st.nextToken());
 
-				if (win + save + loose == 5) isAvailable[r] = true;
+				if (win + save + loose == 5)
+					isAvailable[r] = true;
 				arr[r][c] = new WorldCup(win, save, loose);
 			}
 		}
@@ -27,7 +28,8 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < arr.length; i++) {
 			ans = 0;
-			if (isAvailable[i]) recur(arr[i].clone(), 0);
+			if (isAvailable[i])
+				recur(arr[i].clone(), 0);
 			sb.append(ans).append(" ");
 		}
 		System.out.println(sb);
@@ -35,38 +37,30 @@ public class Main {
 
 	private static void recur(WorldCup[] ar, int idx) {
 		if (idx == combi.length) {
-			for (WorldCup w : ar) {
-				if (w.win != 0)
-					return;
-				if (w.save != 0)
-					return;
-				if (w.loose != 0)
-					return;
-			}
 			ans = 1;
+			for (WorldCup w : ar) {
+				if (w.win + w.save + w.loose != 0) {
+					ans = 0;
+					break;
+				}
+			}
 			return;
 		}
 		int a = combi[idx][0], b = combi[idx][1];
 		if (ar[a].win > 0 && ar[b].loose > 0) {
-			ar[a].win -= 1;
-			ar[b].loose -= 1;
+			ar[a].win -= 1; ar[b].loose -= 1;
 			recur(ar, idx + 1);
-			ar[a].win += 1;
-			ar[b].loose += 1;
+			ar[a].win += 1; ar[b].loose += 1;
 		}
 		if (ar[a].save > 0 && ar[b].save > 0) {
-			ar[a].save -= 1;
-			ar[b].save -= 1;
+			ar[a].save -= 1; ar[b].save -= 1;
 			recur(ar, idx + 1);
-			ar[a].save += 1;
-			ar[b].save += 1;
+			ar[a].save += 1; ar[b].save += 1;
 		}
 		if (ar[a].loose > 0 && ar[b].win > 0) {
-			ar[a].loose -= 1;
-			ar[b].win -= 1;
+			ar[a].loose -= 1; ar[b].win -= 1;
 			recur(ar, idx + 1);
-			ar[a].loose += 1;
-			ar[b].win += 1;
+			ar[a].loose += 1; ar[b].win += 1;
 		}
 		return;
 	}
