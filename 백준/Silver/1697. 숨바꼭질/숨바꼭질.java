@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -12,29 +12,16 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 
-		int ans = bfs(N, K, new boolean[K + 1]);
-		System.out.println(ans);
-	}
-
-	private static int bfs(int n, int k, boolean[] isVisit) {
-		int ans = 100_000;
-		ArrayDeque<int[]> q = new ArrayDeque<>();
-
-		q.add(new int[] { n, 0 });
-		while (!q.isEmpty()) {
-			int[] poll = q.poll();
-			if (poll[0] >= k) {
-				ans = Math.min(ans, poll[1] + Math.abs(k - poll[0]));
-				continue;
-			}
-			if(poll[0]<0 || isVisit[poll[0]])
-				continue;
-			isVisit[poll[0]]=true;
-			q.add(new int[] { poll[0] * 2, poll[1] + 1 });
-			q.add(new int[] { poll[0] + 1, poll[1] + 1 });
-			q.add(new int[] { poll[0] - 1, poll[1] + 1 });
-
+		int[] dp = new int[100_002];
+//		Arrays.fill(dp,100_002);
+		for (int i = 0; i < dp.length; i++) {
+			dp[i] = Math.abs(i - N);
 		}
-		return ans;
+		for (int i = 1; i <= 50000; i++) {
+			dp[i * 2] = Math.min(dp[i] + 1, dp[i * 2]);
+			dp[i * 2 + 1] = Math.min(dp[i * 2] + 1, dp[i * 2 + 1]);
+			dp[i * 2 - 1] = Math.min(dp[i * 2] + 1, dp[i * 2 - 1]);
+		}
+		System.out.println(dp[K]);
 	}
 }
