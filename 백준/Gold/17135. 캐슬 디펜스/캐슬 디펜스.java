@@ -5,7 +5,7 @@ import java.util.*;
 
 
 public class Main {
-    static int N, M, D, c_idx = 0, ans = 0;
+    static int N, M, D, ans = 0;
     static int[][] map;
     static List<int[]> combi = new ArrayList<>();
 
@@ -43,21 +43,17 @@ public class Main {
 
     private static void playGame(int[] com, int[][] m) {
         int times = N, total = 0;
-//        System.out.println("combi: " + Arrays.toString(com));
         ArrayList<int[]> list = new ArrayList<>();
         while (times-- > 0) {
             for (int c : com) {
                 list.add(bfs(c, m, times));
             }
             for (int[] p : list) {
-//                System.out.println(Arrays.toString(p));
                 if (!isBound(p[0], p[1]) || m[p[0]][p[1]] == 0) continue;
                 total += 1;
                 m[p[0]][p[1]] = 0;
             }
-//            System.out.print(total + " ");
         }
-//        System.out.println();
         ans = Math.max(total, ans);
     }
 
