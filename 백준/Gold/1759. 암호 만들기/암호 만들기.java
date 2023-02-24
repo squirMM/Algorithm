@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 public class Main {
 	static StringBuilder sb = new StringBuilder();
 	static int L, C;
-	static String[] gather = { "a", "e", "i", "o", "u" }, arr;
+	static String[] arr;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -35,15 +35,13 @@ public class Main {
 		}
 		for (int i = start; i < C; i++) {
 			dfs(i + 1, isGather(arr[i]) ? cg + 1 : cg, pw.append(arr[i]));
-			pw.deleteCharAt(pw.length()-1);
+			pw.deleteCharAt(pw.length() - 1);
 		}
 	}
 
 	private static boolean isGather(String pw) {
-		for (String g : gather) {
-			if (pw.equals(g))
-				return true;
-		}
+		if (pw.equals("a") || pw.equals("e") || pw.equals("i") || pw.equals("o") || pw.equals("u"))
+			return true;
 		return false;
 	}
 }
