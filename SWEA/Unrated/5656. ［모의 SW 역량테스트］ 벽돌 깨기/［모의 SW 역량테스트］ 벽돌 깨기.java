@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 class Solution
-{
+ {
     static int[][] map;
     static int N, W, H, ans;
 
@@ -45,10 +45,15 @@ class Solution
 
     private static void checkMap(int[][] map) {
         int cnt = 0;
-        for (int r = 0; r < H; r++) {
-            for (int c = 0; c < W; c++) {
-                if (map[r][c] != 0) cnt += 1;
+        for (int c = 0; c < W; c++) {
+            for (int r = H - 1; r >=0; r--) {
+                if (map[r][c] == 0) {
+                    cnt += H - r - 1;
+                    break;
+                }
             }
+            if (map[0][c] == 1)
+                cnt += H;
         }
         ans = Math.min(ans, cnt);
     }
