@@ -4,9 +4,8 @@ import java.io.InputStreamReader;
 import java.util.*;
 class Solution
 {
-    static int[][] map, cloneMap;
-    static int N, W, H, ans, cnt, total;
-    static boolean print = false;
+    static int[][] map;
+    static int N, W, H, ans;
 
     public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -21,47 +20,51 @@ class Solution
 
             map = new int[H][W];
             ans = Integer.MAX_VALUE;
-            total = 0;
             for (int r = 0; r < H; r++) {
                 st = new StringTokenizer(in.readLine());
                 for (int c = 0; c < W; c++) {
                     map[r][c] = Integer.parseInt(st.nextToken());
-                    if (map[r][c] != 0) total += 1;
                 }
             }
-            permutation(0, new int[N]);
+            permutation(0, copyMap(map));
             sb.append("#").append(t).append(" ").append(ans).append("\n");
         }
         System.out.println(sb);
     }
 
-    private static void permutation(int cnt, int[] selected) {
-        if (cnt == selected.length) {
-            copyMap();
-            playGame(selected);
+    private static void permutation(int cnt, int[][] cloneMap) {
+        if (cnt == N) {
+            checkMap(cloneMap);
             return;
         }
         for (int i = 0; i < W; i++) {
-            selected[cnt] = i;
-            permutation(cnt + 1, selected);
+            int[][] tmp = copyMap(cloneMap);
+            permutation(cnt + 1, playGame(i, tmp));
         }
     }
 
-    private static void playGame(int[] selected) {
-        cnt = total;
-        for (int s : selected) {
-            for (int i = 0; i < H; i++) {
-                if (cloneMap[i][s] != 0) {
-                    boolean need = bfs(i, s);
-                    if (need) cloneMap = organizeMap();
-                    break;
-                }
+    private static void checkMap(int[][] map) {
+        int cnt = 0;
+        for (int r = 0; r < H; r++) {
+            for (int c = 0; c < W; c++) {
+                if (map[r][c] != 0) cnt += 1;
             }
         }
         ans = Math.min(ans, cnt);
     }
 
-    private static int[][] organizeMap() {
+    private static int[][] playGame(int s, int[][] cloneMap) {
+        for (int i = 0; i < H; i++) {
+            if (cloneMap[i][s] != 0) {
+                boolean need = bfs(i, s, cloneMap);
+                if (need) cloneMap = organizeMap(cloneMap);
+                break;
+            }
+        }
+        return cloneMap;
+    }
+
+    private static int[][] organizeMap(int[][] cloneMap) {
         int[][] organizeMap = new int[H][W];
         for (int c = 0; c < W; c++) {
             List<Integer> list = new ArrayList<>();
@@ -70,20 +73,18 @@ class Solution
             }
             int idx = list.size() - 1;
             for (int r = H - 1; r > H - 1 - list.size(); r--) {
-                // 집어 넣기
                 organizeMap[r][c] = list.get(idx--);
             }
         }
         return organizeMap;
     }
 
-    private static boolean bfs(int r, int c) {
+    private static boolean bfs(int r, int c, int[][] cloneMap) {
         int[] dr = {1, -1, 0, 0}, dc = {0, 0, -1, 1};
         ArrayDeque<Integer[]> q = new ArrayDeque<>();
 
         q.add(new Integer[]{r, c, cloneMap[r][c] - 1});
         cloneMap[r][c] = 0;
-        cnt -= 1;
 
         boolean needOrganize = false;
         while (!q.isEmpty()) {
@@ -101,7 +102,6 @@ class Solution
                     needOrganize = true;
                     if (cloneMap[nr][nc] > 1)
                         q.add(new Integer[]{nr, nc, cloneMap[nr][nc] - 1});
-                    if (cloneMap[nr][nc] != 0) cnt -= 1;
                     cloneMap[nr][nc] = 0;
                 }
             }
@@ -110,17 +110,13 @@ class Solution
     }
 
     private static boolean isBound(int nr, int nc) {
-        if (nr < 0 || nc < 0 || nr >= H || nc >= W)
-            return false;
-        return true;
+        return nr >= 0 && nc >= 0 && nr < H && nc < W;
     }
 
-        private static void copyMap() {
-        cloneMap = new int[H][W];
-        for (int i = 0; i < H; i++){
-            for(int j =0; j<W; j++){
-                cloneMap[i][j] = map[i][j];
-            }
-        }
+    private static int[][] copyMap(int[][] map) {
+        int[][] tmp = new int[H][W];
+        for (int i = 0; i < H; i++)
+            tmp[i] = map[i].clone();
+        return tmp;
     }
 }
