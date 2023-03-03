@@ -8,7 +8,6 @@ public class Main {
 	static int R, C, M;
 	static Shark[][] map;
 	static PriorityQueue<Shark> pq;
-	// direction change : (dir+=2)%4
 	static int[] dx = { 0, 0, 1, -1 }, dy = { -1, 1, 0, 0 };
 
 	static class Shark implements Comparable<Shark> {
@@ -23,11 +22,9 @@ public class Main {
 		}
 
 		public void changeLoc(int r, int c, int d) {
-//			System.out.print(this.r + " " + this.c + " " + this.d + " ");
 			this.r = r;
 			this.c = c;
 			this.d = d;
-//			System.out.println(r + " " + c + " " + d);
 		}
 
 		@Override
@@ -50,7 +47,6 @@ public class Main {
 			int r = Integer.parseInt(st.nextToken());
 			int c = Integer.parseInt(st.nextToken());
 			int s = Integer.parseInt(st.nextToken());
-			// d-1 해줘야한다.
 			int d = Integer.parseInt(st.nextToken());
 			int z = Integer.parseInt(st.nextToken());
 
@@ -58,7 +54,6 @@ public class Main {
 		}
 		int ans = 0;
 		for (int i = 0; i < C; i++) {
-			// 상어 잡기
 			for (int j = 0; j < R; j++) {
 				if (map[j][i] == null)
 					continue;
@@ -66,8 +61,7 @@ public class Main {
 				map[j][i] = null;
 				break;
 			}
-			map = moveShark();
-//			System.out.println();
+			if(i!=C-1)map = moveShark();
 		}
 		System.out.println(ans);
 	}
@@ -96,6 +90,7 @@ public class Main {
 
 	private static Shark nextLoc(Shark s) {
 		int nr = s.r + dy[s.d] * s.s, nc = s.c + dx[s.d] * s.s, nd = s.d;
+		
 		if (nr < 0) {
 			if ((Math.abs(nr) / (R - 1)) % 2 == 0) {
 				nd = 1;
@@ -105,14 +100,15 @@ public class Main {
 				nr = dy[nd] * (Math.abs(nr) % (R - 1)) + (R - 1);
 			}
 		} else if (nr >= R) {
-			if ((Math.abs(nr) / (R - 1)) % 2 == 0) {
+			if (nr / (R - 1) % 2 == 0) {
 				nr = dy[nd] * (nr % (R - 1));
 			}
-			else if ((Math.abs(nr) / (R - 1)) % 2 == 1) {
+			else if (nr / (R - 1) % 2 == 1) {
 				nd = 0;
 				nr = dy[nd] * (nr % (R - 1)) + (R - 1);
 			}
 		}
+		
 		if (nc < 0) {
 			if ((Math.abs(nc) / (C - 1)) % 2 == 0) {
 				nd = 2;
@@ -122,10 +118,10 @@ public class Main {
 				nc = dx[nd] * (Math.abs(nc) % (C - 1)) + (C - 1);
 			}
 		} else if (nc >= C) {
-			if ((Math.abs(nc) / (C - 1)) % 2 == 0) {
+			if (nc/ (C - 1) % 2 == 0) {
 				nc = dx[nd] * (Math.abs(nc) % (C - 1));
 			}
-			else if ((Math.abs(nc) / (C - 1)) % 2 == 1) {
+			else if (nc/ (C - 1) % 2 == 1) {
 				nd = 3;
 				nc = dx[nd] * (Math.abs(nc) % (C - 1)) + (C - 1);
 			}
