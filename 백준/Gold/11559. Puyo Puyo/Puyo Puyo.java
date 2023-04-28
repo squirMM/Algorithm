@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Queue;
 
 public class Main {
@@ -41,19 +40,12 @@ public class Main {
         System.out.println(ret);
     }
 
-    private static void printArr() {
-        for (int r = 0; r < 12; r++) {
-            System.out.println(Arrays.toString(map[r]));
-        }
-    }
-
     private static boolean play() {
         boolean flag = false;
         for (int c = 0; c < 6; c++) {
             for (int r = 11; r >= 0; r--) {
-                if(map[r][c] == '.') continue;
-                boolean tag = bfs(r, c, map[r][c]);
-                flag = flag||tag;
+                if (map[r][c] == '.') continue;
+                flag = bfs(r, c, map[r][c]) || flag;
             }
         }
         if (flag) ret += 1;
