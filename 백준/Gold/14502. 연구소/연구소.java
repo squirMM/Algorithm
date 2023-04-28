@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static int[][] map;
-	static int N, M, max, ret = Integer.MIN_VALUE;
+	static int N, M, ret = Integer.MIN_VALUE;
 	static boolean[][] visit;
 
 	public static void main(String[] args) throws IOException {
@@ -15,8 +15,7 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(in.readLine());
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
-
-		max = (N - 1) * 10 + M - 1;
+        
 		map = new int[N][M];
 		for (int r = 0; r < N; r++) {
 			st = new StringTokenizer(in.readLine());
